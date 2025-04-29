@@ -2,21 +2,13 @@ import connectDB from "@/lib/database";
 import Todo from "@/model/todo.model";
 import { NextRequest, NextResponse } from "next/server";
 
-
-interface Params {
-  params: {
-    id: string;
-  };
-}
-
-export async function GET(request: NextRequest, {params}: Params) {
+export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   await connectDB();
 
-  try{
+  try {
     const todo = await Todo.findById(params.id);
     return NextResponse.json({ todo });
-  }
-  catch(error) {
+  } catch (error) {
     console.error("Error fetching todo:", error);
     return NextResponse.json(
       { message: "Failed to fetch todo" },
@@ -25,7 +17,7 @@ export async function GET(request: NextRequest, {params}: Params) {
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: Params) {
+export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
   await connectDB();
 
   try {
@@ -45,7 +37,7 @@ export async function DELETE(request: NextRequest, { params }: Params) {
   }
 }
 
-export async function PUT(request: NextRequest, { params }: Params) {
+export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
   await connectDB();
 
   try {
