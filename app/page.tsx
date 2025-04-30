@@ -5,7 +5,6 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/navigation';
 
-
 interface Todo {
   _id: string;
   title: string;
@@ -23,18 +22,16 @@ export default function Home() {
   const [filter, setFilter] = useState<'all' | 'completed' | 'incomplete'>('all');
   const router = useRouter();
 
-  // Fetch all todos
   const fetchTodos = async () => {
     try {
       const response = await fetch('/api/Todo');
       const data: { todos: Todo[] } = await response.json();
       setTodos(data.todos);
-    } catch (error: any) {
+    } catch (error) {
       toast.error('Failed to fetch todos');
     }
   };
 
-  // Add a new todo
   const addTodo = async () => {
     if (!newTodo.title || !newTodo.description) {
       toast.error('Title and description are required');
@@ -51,12 +48,11 @@ export default function Home() {
       setTodos([...todos, data.todo]);
       setNewTodo({ title: '', description: '', completed: false });
       toast.success('Todo added successfully');
-    } catch (error: any) {
+    } catch (error) {
       toast.error('Failed to add todo');
     }
   };
 
-  // Delete a todo
   const deleteTodo = async (id: string) => {
     try {
       await fetch(`/api/Todo/${id}`, {
@@ -64,12 +60,11 @@ export default function Home() {
       });
       setTodos(todos.filter((todo) => todo._id !== id));
       toast.success('Todo deleted successfully');
-    } catch (error: any) {
+    } catch (error) {
       toast.error('Failed to delete todo');
     }
   };
 
-  // Redirect to edit page
   const redirectToEditPage = (id: string) => {
     router.push(`/Todo/Edit/${id}`);
   };
@@ -78,12 +73,21 @@ export default function Home() {
     fetchTodos();
   }, []);
 
-  // Filtered todos
   const filteredTodos = todos.filter((todo) => {
     if (filter === 'completed') return todo.completed;
     if (filter === 'incomplete') return !todo.completed;
     return true;
   });
+
+  const renderEmptyMessage = () => {
+    if (filter === 'completed') {
+      return "You haven't completed any tasks yet.";
+    } else if (filter === 'incomplete') {
+      return "Well done! You've completed all your tasks.";
+    } else {
+      return "No tasks found. Add some todos to get started!";
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-indigo-200 via-indigo-300 to-violet-300 py-8 px-4 sm:px-6 lg:px-8">
@@ -112,14 +116,16 @@ export default function Home() {
             <div className="flex items-center space-x-2">
               <input
                 type="checkbox"
-                id = "completed"
+                id="completed"
                 checked={newTodo.completed}
                 className="cursor-pointer text-black"
                 onChange={(e) =>
                   setNewTodo({ ...newTodo, completed: e.target.checked })
                 }
               />
-              <label htmlFor="completed" className='text-black'>Completed</label>
+              <label htmlFor="completed" className="text-black">
+                Completed
+              </label>
             </div>
             <button
               onClick={addTodo}
@@ -135,19 +141,25 @@ export default function Home() {
         <div className="flex justify-center space-x-4 mb-6">
           <button
             onClick={() => setFilter('all')}
-            className={`px-4 py-2 rounded-lg cursor-pointer ${filter === 'all' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'}`}
+            className={`px-4 py-2 rounded-lg cursor-pointer ${
+              filter === 'all' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'
+            }`}
           >
             All
           </button>
           <button
             onClick={() => setFilter('completed')}
-            className={`px-4 py-2 rounded-lg cursor-pointer ${filter === 'completed' ? 'bg-green-500 text-white' : 'bg-gray-200 text-black'}`}
+            className={`px-4 py-2 rounded-lg cursor-pointer ${
+              filter === 'completed' ? 'bg-green-500 text-white' : 'bg-gray-200 text-black'
+            }`}
           >
             Completed
           </button>
           <button
             onClick={() => setFilter('incomplete')}
-            className={`px-4 py-2 rounded-lg cursor-pointer ${filter === 'incomplete' ? 'bg-yellow-500 text-white' : 'bg-gray-200 text-black'}`}
+            className={`px-4 py-2 rounded-lg cursor-pointer ${
+              filter === 'incomplete' ? 'bg-yellow-500 text-white' : 'bg-gray-200 text-black'
+            }`}
           >
             Incomplete
           </button>
@@ -155,34 +167,44 @@ export default function Home() {
 
         {/* Todo List */}
         <div className="space-y-4">
-          {filteredTodos.map((todo) => (
-            <div
-              key={todo._id}
-              className="bg-white p-4 rounded-lg shadow-md flex items-center justify-between"
-            >
-              <div>
-                <h3 className="text-lg font-semibold text-black">{todo.title}</h3>
-                <p className="text-gray-600">{todo.description}</p>
-                <p className={`mt-1 text-sm font-medium ${todo.completed ? 'text-green-600' : 'text-yellow-600'}`}>
-                  {todo.completed ? 'Completed' : 'Not Completed'}
-                </p>
-              </div>
-              <div className="flex space-x-2">
-                <button
-                  onClick={() => redirectToEditPage(todo._id)}
-                  className="p-2 text-blue-500 hover:bg-blue-100 rounded-lg cursor-pointer"
-                >
-                  <Edit size={18} />
-                </button>
-                <button
-                  onClick={() => deleteTodo(todo._id)}
-                  className="p-2 text-red-500 hover:bg-red-100 rounded-lg cursor-pointer"
-                >
-                  <Trash2 size={18} />
-                </button>
-              </div>
+          {filteredTodos.length === 0 ? (
+            <div className="text-center text-gray-700 font-medium bg-white p-4 rounded-lg shadow-md">
+              {renderEmptyMessage()}
             </div>
-          ))}
+          ) : (
+            filteredTodos.map((todo) => (
+              <div
+                key={todo._id}
+                className="bg-white p-4 rounded-lg shadow-md flex items-center justify-between"
+              >
+                <div>
+                  <h3 className="text-lg font-semibold text-black">{todo.title}</h3>
+                  <p className="text-gray-600">{todo.description}</p>
+                  <p
+                    className={`mt-1 text-sm font-medium ${
+                      todo.completed ? 'text-green-600' : 'text-yellow-600'
+                    }`}
+                  >
+                    {todo.completed ? 'Completed' : 'Not Completed'}
+                  </p>
+                </div>
+                <div className="flex space-x-2">
+                  <button
+                    onClick={() => redirectToEditPage(todo._id)}
+                    className="p-2 text-blue-500 hover:bg-blue-100 rounded-lg cursor-pointer"
+                  >
+                    <Edit size={18} />
+                  </button>
+                  <button
+                    onClick={() => deleteTodo(todo._id)}
+                    className="p-2 text-red-500 hover:bg-red-100 rounded-lg cursor-pointer"
+                  >
+                    <Trash2 size={18} />
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
