@@ -15,7 +15,7 @@ This is a full-stack Todo application built with **Next.js**, **React**, **TypeS
 
 - **Frontend**: Next.js, React, TypeScript, Tailwind CSS
 - **Backend**: Next.js API Routes
-- **Database**: MongoDB (with Mongoose)
+- **Database**: MongoDB 
 
 ---
 
@@ -25,7 +25,6 @@ This is a full-stack Todo application built with **Next.js**, **React**, **TypeS
 
 ```bash
 git clone https://github.com/your-username/nextjs-todo-app.git
-cd nextjs-todo-app
 ```
 
 2. **Install Dependencies**
