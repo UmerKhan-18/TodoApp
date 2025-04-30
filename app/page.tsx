@@ -86,39 +86,40 @@ export default function Home() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-indigo-200 via-indigo-300 to-violet-300 py-8 px-4 sm:px-6 lg:px-8 pointer-coarse: ">
+    <div className="min-h-screen bg-gradient-to-r from-indigo-200 via-indigo-300 to-violet-300 py-8 px-4 sm:px-6 lg:px-8">
       <ToastContainer />
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl font-bold text-center mb-8">Todo List</h1>
+        <h1 className="text-3xl font-bold text-black text-center mb-8">Todo List</h1>
 
         {/* Add Todo Form */}
         <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-          <h2 className="text-xl font-semibold mb-4">Add New Todo</h2>
+          <h2 className="text-xl font-semibold mb-4 text-black">Add New Todo</h2>
           <div className="space-y-4">
             <input
               type="text"
               placeholder="Title"
               value={newTodo.title}
               onChange={(e) => setNewTodo({ ...newTodo, title: e.target.value })}
-              className="w-full p-2 border rounded-lg"
+              className="w-full p-2 border rounded-lg text-black"
             />
             <input
               type="text"
               placeholder="Description"
               value={newTodo.description}
               onChange={(e) => setNewTodo({ ...newTodo, description: e.target.value })}
-              className="w-full p-2 border rounded-lg"
+              className="w-full p-2 border rounded-lg text-black"
             />
             <div className="flex items-center space-x-2">
               <input
                 type="checkbox"
+                id = "completed"
                 checked={newTodo.completed}
-                className="cursor-pointer"
+                className="cursor-pointer text-black"
                 onChange={(e) =>
                   setNewTodo({ ...newTodo, completed: e.target.checked })
                 }
               />
-              <label>Completed</label>
+              <label htmlFor="completed" className='text-black'>Completed</label>
             </div>
             <button
               onClick={addTodo}
@@ -134,19 +135,19 @@ export default function Home() {
         <div className="flex justify-center space-x-4 mb-6">
           <button
             onClick={() => setFilter('all')}
-            className={`px-4 py-2 rounded-lg cursor-pointer ${filter === 'all' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+            className={`px-4 py-2 rounded-lg cursor-pointer ${filter === 'all' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'}`}
           >
             All
           </button>
           <button
             onClick={() => setFilter('completed')}
-            className={`px-4 py-2 rounded-lg cursor-pointer ${filter === 'completed' ? 'bg-green-500 text-white' : 'bg-gray-200'}`}
+            className={`px-4 py-2 rounded-lg cursor-pointer ${filter === 'completed' ? 'bg-green-500 text-white' : 'bg-gray-200 text-black'}`}
           >
             Completed
           </button>
           <button
             onClick={() => setFilter('incomplete')}
-            className={`px-4 py-2 rounded-lg cursor-pointer ${filter === 'incomplete' ? 'bg-yellow-500 text-white' : 'bg-gray-200'}`}
+            className={`px-4 py-2 rounded-lg cursor-pointer ${filter === 'incomplete' ? 'bg-yellow-500 text-white' : 'bg-gray-200 text-black'}`}
           >
             Incomplete
           </button>
@@ -160,7 +161,7 @@ export default function Home() {
               className="bg-white p-4 rounded-lg shadow-md flex items-center justify-between"
             >
               <div>
-                <h3 className="text-lg font-semibold">{todo.title}</h3>
+                <h3 className="text-lg font-semibold text-black">{todo.title}</h3>
                 <p className="text-gray-600">{todo.description}</p>
                 <p className={`mt-1 text-sm font-medium ${todo.completed ? 'text-green-600' : 'text-yellow-600'}`}>
                   {todo.completed ? 'Completed' : 'Not Completed'}

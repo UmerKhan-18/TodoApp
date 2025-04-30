@@ -65,7 +65,7 @@ export default function EditTodo() {
     <div className="min-h-screen bg-gradient-to-r from-indigo-200 via-indigo-300 to-violet-300 py-8 px-4 sm:px-6 lg:px-8">
       <ToastContainer />
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl font-bold text-center mb-8">Edit Todo</h1>
+        <h1 className="text-3xl font-bold text-center mb-8 text-black">Edit Todo</h1>
 
         {/* Edit Todo Form */}
         <div className="bg-white p-6 rounded-lg shadow-md mb-8">
@@ -75,23 +75,24 @@ export default function EditTodo() {
               placeholder="Title"
               value={todo.title}
               onChange={(e) => setTodo({ ...todo, title: e.target.value })}
-              className="w-full p-2 border rounded-lg"
+              className="w-full p-2 border rounded-lg text-black"
             />
             <input
               type="text"
               placeholder="Description"
               value={todo.description}
               onChange={(e) => setTodo({ ...todo, description: e.target.value })}
-              className="w-full p-2 border rounded-lg"
+              className="w-full p-2 border rounded-lg text-black"
             />
             <div className="flex items-center space-x-2">
               <input
                 type="checkbox"
+                id = "completed"
                 checked={todo.completed}
-                className="cursor-pointer"
+                className="cursor-pointer text-black"
                 onChange={(e) => setTodo({ ...todo, completed: e.target.checked })}
               />
-              <label>Completed</label>
+              <label htmlFor="completed" className='text-black'>Completed</label>
             </div>
             <button
               onClick={updateTodo}
