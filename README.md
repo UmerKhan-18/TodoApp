@@ -1,6 +1,6 @@
 # 📝 Next.js Full-Stack Todo App
 
-This is a full-stack Todo application built with **Next.js**, **React**, **TypeScript**, **MongoDB**, and **Tailwind CSS**. This project was developed as part of a technical assessment task.
+This is a full-stack Todo application built with **Next.js**, **React**, **TypeScript**, **MongoDB**, and **Tailwind CSS**. This app allows users to add, edit, delete, and filter tasks  with functionality like marking tasks as completed or incomplete.
 
 ##  Features
 
@@ -8,7 +8,6 @@ This is a full-stack Todo application built with **Next.js**, **React**, **TypeS
 - ✅ Mark todo as completed/incomplete
 - ✅ Delete a todo
 - ✅ Filter todos (All / Completed / Incomplete)
-- ✅ Pagination (3 items per page)
 - ✅ Responsive design using Tailwind CSS
 - ✅ TypeScript support
 
