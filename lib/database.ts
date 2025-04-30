@@ -1,13 +1,23 @@
 import mongoose from "mongoose";
 
-const connectDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO_URI as string);
-    console.log("MongoDB Connected");
-  } 
-  catch(error) {
-    console.log('Error connecting to MongoDB', error);
-  }
+declare global {
+  var mongooseConnection: typeof mongoose | null;
 }
+
+if (!global.mongooseConnection) {
+  global.mongooseConnection = null;
+}
+
+const connectDB = async () => {
+  if (global.mongooseConnection) return;
+
+  try {
+    global.mongooseConnection = await mongoose.connect(process.env.MONGO_URI!);
+    console.log("MongoDB connected");
+  } catch (error) {
+    console.error("MongoDB connection error:", error);
+    throw new Error("Failed to connect");
+  }
+};
 
 export default connectDB;

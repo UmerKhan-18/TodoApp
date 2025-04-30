@@ -86,7 +86,7 @@ export default function Home() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-indigo-200 via-indigo-300 to-violet-300 py-8 px-4 sm:px-6 lg:px-8 ">
+    <div className="min-h-screen bg-gradient-to-r from-indigo-200 via-indigo-300 to-violet-300 py-8 px-4 sm:px-6 lg:px-8 pointer-coarse: ">
       <ToastContainer />
       <div className="max-w-3xl mx-auto">
         <h1 className="text-3xl font-bold text-center mb-8">Todo List</h1>
@@ -113,6 +113,7 @@ export default function Home() {
               <input
                 type="checkbox"
                 checked={newTodo.completed}
+                className="cursor-pointer"
                 onChange={(e) =>
                   setNewTodo({ ...newTodo, completed: e.target.checked })
                 }
@@ -121,7 +122,7 @@ export default function Home() {
             </div>
             <button
               onClick={addTodo}
-              className="w-full bg-gradient-to-r from-cyan-400 to-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 flex items-center justify-center"
+              className="w-full bg-gradient-to-r from-cyan-400 to-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 flex items-center justify-center cursor-pointer"
             >
               <Plus size={18} className="mr-2" />
               Add Todo
@@ -133,19 +134,19 @@ export default function Home() {
         <div className="flex justify-center space-x-4 mb-6">
           <button
             onClick={() => setFilter('all')}
-            className={`px-4 py-2 rounded-lg ${filter === 'all' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+            className={`px-4 py-2 rounded-lg cursor-pointer ${filter === 'all' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
           >
             All
           </button>
           <button
             onClick={() => setFilter('completed')}
-            className={`px-4 py-2 rounded-lg ${filter === 'completed' ? 'bg-green-500 text-white' : 'bg-gray-200'}`}
+            className={`px-4 py-2 rounded-lg cursor-pointer ${filter === 'completed' ? 'bg-green-500 text-white' : 'bg-gray-200'}`}
           >
             Completed
           </button>
           <button
             onClick={() => setFilter('incomplete')}
-            className={`px-4 py-2 rounded-lg ${filter === 'incomplete' ? 'bg-yellow-500 text-white' : 'bg-gray-200'}`}
+            className={`px-4 py-2 rounded-lg cursor-pointer ${filter === 'incomplete' ? 'bg-yellow-500 text-white' : 'bg-gray-200'}`}
           >
             Incomplete
           </button>
@@ -168,13 +169,13 @@ export default function Home() {
               <div className="flex space-x-2">
                 <button
                   onClick={() => redirectToEditPage(todo._id)}
-                  className="p-2 text-blue-500 hover:bg-blue-100 rounded-lg"
+                  className="p-2 text-blue-500 hover:bg-blue-100 rounded-lg cursor-pointer"
                 >
                   <Edit size={18} />
                 </button>
                 <button
                   onClick={() => deleteTodo(todo._id)}
-                  className="p-2 text-red-500 hover:bg-red-100 rounded-lg"
+                  className="p-2 text-red-500 hover:bg-red-100 rounded-lg cursor-pointer"
                 >
                   <Trash2 size={18} />
                 </button>

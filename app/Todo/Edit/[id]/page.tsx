@@ -62,7 +62,7 @@ export default function EditTodo() {
   }, [id]);
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-r from-indigo-200 via-indigo-300 to-violet-300 py-8 px-4 sm:px-6 lg:px-8">
       <ToastContainer />
       <div className="max-w-3xl mx-auto">
         <h1 className="text-3xl font-bold text-center mb-8">Edit Todo</h1>
@@ -88,13 +88,14 @@ export default function EditTodo() {
               <input
                 type="checkbox"
                 checked={todo.completed}
+                className="cursor-pointer"
                 onChange={(e) => setTodo({ ...todo, completed: e.target.checked })}
               />
               <label>Completed</label>
             </div>
             <button
               onClick={updateTodo}
-              className="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600"
+              className="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 cursor-pointer"
             >
               Update Todo
             </button>

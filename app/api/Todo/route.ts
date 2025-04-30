@@ -34,7 +34,7 @@ export async function GET() {
   catch(error) {
     console.log("Error Reading todo: ", error);
     return NextResponse.json(
-      { message: "Failed to Create Todo" },
+      { message: "Failed to Get Todo" },
       { status: 500 }
     )
   }
