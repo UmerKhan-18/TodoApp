@@ -6,7 +6,7 @@ import { getUserIdFromRequest } from "@/lib/auth";
 // GET
 export async function GET(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   await connectDB();
-  const { id } = await context.params;  // Await the async params
+  const { id } = await context.params; // Await the async params
 
   const userId = getUserIdFromRequest(req);
 
@@ -35,7 +35,7 @@ export async function GET(req: NextRequest, context: { params: Promise<{ id: str
 // DELETE
 export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   await connectDB();
-  const { id } = await context.params;  // Await the async params
+  const { id } = await context.params; // Await the async params
   const userId = getUserIdFromRequest(req);
 
   if (!userId) {
@@ -63,7 +63,7 @@ export async function DELETE(req: NextRequest, context: { params: Promise<{ id: 
 // PUT
 export async function PUT(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   await connectDB();
-  const { id } = await context.params;  // Await the async params
+  const { id } = await context.params; // Await the async params
   const userId = getUserIdFromRequest(req);
 
   if (!userId) {

@@ -47,7 +47,7 @@ export default function RegisterForm({
       if (!res.ok) {
         setError(data.message || "Something went wrong");
       } else {
-        router.push("/"); // Redirect to login or dashboard
+        router.push("/"); // Redirect to login 
       }
     } catch (err) {
       setError("Failed to register");

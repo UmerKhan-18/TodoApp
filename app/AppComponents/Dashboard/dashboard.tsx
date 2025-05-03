@@ -135,12 +135,12 @@ export default function Dashboard() {
       <ToastContainer />
       <div className="max-w-3xl mx-auto">
         <div className='flex items-center justify-between mt-5 ml-8'>
-        {/* My Todo Dashboard Heading */}
+  
          {/* Logo on the left */}
-          <AppLogo /> {/* Adjust size as needed */} 
+          <AppLogo /> 
 
 
-          {/* Logout Button */}
+          {/* Logout Button on the right*/}
         <button
             onClick={logout}
             className="bg-red-500 text-white px-4 py-2 mt-5 sm:mt-0 rounded-lg cursor-pointer hover:bg-red-600 sm:ml-8"
@@ -149,6 +149,7 @@ export default function Dashboard() {
         </button>
         </div>
                     
+          {/* Dashboard Heading */}
           <h1 className="text-3xl font-bold text-center mb-8 mt-5 text-black">Dashboard</h1>
        
 

@@ -16,7 +16,7 @@ export async function middleware(req: NextRequest) {
     await jwtVerify(token, secret); // Verifies the JWT
     return NextResponse.next();
   } catch (err) {
-    console.error("❌ JWT verification failed:", err);
+    console.error("JWT verification failed:", err);
     return NextResponse.redirect(new URL("/", req.url));
   }
 }

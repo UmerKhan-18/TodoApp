@@ -109,7 +109,7 @@ export default function EditTodo() {
       <ToastContainer />
       <div className="max-w-3xl mx-auto">
          <div className="flex items-center justify-between mt-5 ml-8">
-            <AppLogo /> {/* Adjust size as needed */} 
+            <AppLogo />  
         </div> 
         <h1 className="text-3xl font-bold text-center mb-8 mt-5 text-black">Edit Todo</h1>
 

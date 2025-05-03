@@ -38,7 +38,7 @@ export default function LoginForm({
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include", // 👈 to send/receive HTTP-only cookies
+        credentials: "include", //  to send/receive HTTP-only cookies
         body: JSON.stringify(formData)
       });
 
@@ -47,7 +47,7 @@ export default function LoginForm({
       if (!res.ok) {
         setError(data.message || "Login failed");
       } else {
-        router.push("/dashboard"); // 👈 Change this to your desired page after login
+        router.push("/dashboard"); 
       }
       
       console.log(data);
