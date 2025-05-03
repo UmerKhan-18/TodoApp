@@ -1,4 +1,4 @@
-import mongoose, {Schema} from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const TodoSchema = new Schema({
   title: {
@@ -12,8 +12,13 @@ const TodoSchema = new Schema({
   completed: {
     type: Boolean,
     default: false,
-  }
-})
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+});
 
 const Todo = mongoose.models.Todo || mongoose.model("Todo", TodoSchema);
 
