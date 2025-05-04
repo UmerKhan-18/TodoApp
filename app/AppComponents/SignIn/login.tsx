@@ -91,13 +91,13 @@ export default function LoginForm({
               />
             </div>
             {error && <p className="text-red-500 text-sm">{error}</p>}
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button type="submit" className="w-full cursor-pointer" disabled={loading}>
               {loading ? "Logging in..." : "Login"}
             </Button>
             <div className="mt-4 text-sm flex items-center justify-center gap-1">
               <span>Don&apos;t have an account?</span>
               <Label className="text-primary">
-                <Link href="/sign-up" className="underline underline-offset-4">Sign Up</Link>
+                <Link href="/sign-up" className="underline underline-offset-4 cursor-pointer">Sign Up</Link>
               </Label>
             </div>
           </form>

@@ -27,7 +27,7 @@ This is a full-stack Todo application built with **Next.js**, **React**, **TypeS
 1. **Clone the Repository**
 
 ```bash
-git clone https://github.com/your-username/nextjs-todo-app.git
+git clone https://github.com/UmerKhan-18/TodoApp.git
 ```
 
 2. **Install Dependencies**

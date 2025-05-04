@@ -79,12 +79,12 @@ export default function RegisterForm({
               <Input id="password" type="password" required onChange={handleChange} />
             </div>
             {error && <p className="text-red-500 text-sm">{error}</p>}
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button type="submit" className="w-full cursor-pointer" disabled={loading}>
               {loading ? "Creating..." : "Create an account"}
             </Button>
             <div className="mt-4 text-sm text-center">
               Already have an account?{" "}
-              <Link href="/" className="underline underline-offset-4 text-primary">Sign In</Link>
+              <Link href="/" className="underline underline-offset-4 text-primary cursor-pointer">Sign In</Link>
             </div>
           </form>
         </CardContent>
