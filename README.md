@@ -18,7 +18,7 @@ This is a full-stack Todo application built with **Next.js**, **React**, **TypeS
 - **Frontend**: Next.js, React, TypeScript, Tailwind CSS
 - **Backend**: Next.js API Routes (using JWT Authentication)
 - **Database**: MongoDB
-- **Authentication**: JWT (JSON Web Tokens) for secure login/signup 
+- **Authentication**: JWT for secure login/signup 
 
 ---
 
