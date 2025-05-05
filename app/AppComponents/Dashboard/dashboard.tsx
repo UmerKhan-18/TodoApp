@@ -150,7 +150,7 @@ export default function Dashboard() {
       <ToastContainer />
 
       {/* Header */}
-      <header className={`hidden md:flex w-full p-4 shadow-lg  justify-between items-center ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
+      <header className={`hidden md:flex w-full p-4 shadow-sm  justify-between items-center ${darkMode ? 'bg-gray-800' : 'bg-white'} fixed z-1000 `}>
 
         <h1 className="text-4xl font-bold mb-2 mt-2 ml-1 text-indigo-700 hidden md:block">Dashboard</h1>
         <AppLogo />
@@ -181,7 +181,7 @@ export default function Dashboard() {
       <aside
         className={`${
           sidebarOpen ? 'block' : 'hidden'
-        } md:block w-full md:w-64 ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-md p-6 flex flex-col justify-between md:h-screen`}
+        } md:block w-full md:w-64 ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-md p-6 flex flex-col justify-between fixed bottom-0 left-0 top-20 md:h-screen h-auto z-5 `}
       >
         <div>
           <nav className="space-y-2 mb-6">
@@ -225,7 +225,7 @@ export default function Dashboard() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-8 min-h-screen overflow-y-auto">
+      <main className="flex-1 p-8 min-h-screen overflow-y-auto md:ml-64 md:mt-24">
         {/* Add Todo */}
         <div className="bg-white p-6 rounded-xl shadow mb-8">
           <h2 className="text-xl font-bold mb-4 text-gray-800">Add New Todo</h2> 
