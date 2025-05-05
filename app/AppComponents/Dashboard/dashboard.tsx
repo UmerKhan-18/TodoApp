@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Plus, Trash2, Edit } from 'lucide-react';
+import { Plus, Trash2, Edit, LogOut, ListTodo, Menu, User, Settings, Moon, Sun } from 'lucide-react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/navigation';
@@ -22,7 +22,13 @@ export default function Dashboard() {
     completed: false,
   });
   const [filter, setFilter] = useState<'all' | 'completed' | 'incomplete'>('all');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(false); // Track Dark Mode state
   const router = useRouter();
+
+  useEffect(() => {
+    fetchTodos();
+  }, []);
 
   const fetchTodos = async () => {
     try {
@@ -30,7 +36,7 @@ export default function Dashboard() {
       if (response.status === 401) return router.push('/');
       const data: { todos: Todo[] } = await response.json();
       setTodos(data.todos);
-    } catch (error) {
+    } catch {
       toast.error('Failed to fetch todos');
     }
   };
@@ -52,7 +58,7 @@ export default function Dashboard() {
       setTodos([...todos, data.todo]);
       setNewTodo({ title: '', description: '', completed: false });
       toast.success('Todo added successfully');
-    } catch (error) {
+    } catch {
       toast.error('Failed to add todo');
     }
   };
@@ -65,13 +71,9 @@ export default function Dashboard() {
       });
       setTodos(todos.filter((todo) => todo._id !== id));
       toast.success('Todo deleted successfully');
-    } catch (error) {
+    } catch {
       toast.error('Failed to delete todo');
     }
-  };
-
-  const redirectToEditPage = (id: string) => {
-    router.push(`/Todo/Edit/${id}`);
   };
 
   const toggleComplete = async (id: string) => {
@@ -90,33 +92,32 @@ export default function Dashboard() {
         prev.map((t) => (t._id === id ? data.todo : t))
       );
       toast.success('Todo updated');
-    } catch (err) {
+    } catch {
       toast.error('Failed to update todo');
     }
+  };
+
+  const redirectToEditPage = (id: string) => {
+    router.push(`/Todo/Edit/${id}`);
   };
 
   const logout = async () => {
     try {
       const response = await fetch('/api/auth/logout', {
         method: 'POST',
-        credentials: 'include', // Include cookies to allow server-side session management
+        credentials: 'include',
       });
-  
+
       if (response.ok) {
         toast.success('Logged out successfully');
-        router.push('/'); // Redirect to the login page after successful logout
+        router.push('/');
       } else {
         toast.error('Logout failed');
       }
-    } catch (error) {
+    } catch {
       toast.error('Error logging out');
     }
   };
-  
-
-  useEffect(() => {
-    fetchTodos();
-  }, []);
 
   const filteredTodos = todos.filter((todo) => {
     if (filter === 'completed') return todo.completed;
@@ -130,62 +131,134 @@ export default function Dashboard() {
     return 'No tasks found. Add some todos to get started!';
   };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-r from-indigo-200 via-indigo-300 to-violet-300 py-8 px-4 sm:px-6 lg:px-8">
-      <ToastContainer />
-      <div className="max-w-3xl mx-auto">
-        <div className='flex items-center justify-between mt-5 ml-8'>
+  // Function to toggle Dark/Light mode
+  const toggleTheme = () => {
+    setDarkMode(!darkMode);
+    localStorage.setItem('darkMode', (!darkMode).toString()); // Save preference in localStorage
+  };
+
+  // Load theme from localStorage when the page loads
+  useEffect(() => {
+    const storedTheme = localStorage.getItem('darkMode');
+    if (storedTheme !== null) setDarkMode(storedTheme === 'true');
+  }, []);
   
-         {/* Logo on the left */}
-          <AppLogo /> 
 
+  return (
 
-          {/* Logout Button on the right*/}
+    <div className={`min-h-screen  ${darkMode ? 'bg-gray-900 text-white' : 'bg-gradient-to-r from-indigo-200 via-indigo-300 to-violet-300 text-black'}`}>
+      <ToastContainer />
+
+      {/* Header */}
+      <header className={`hidden md:flex w-full p-4 shadow-lg  justify-between items-center ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
+
+        <h1 className="text-4xl font-bold mb-2 mt-2 ml-1 text-indigo-700 hidden md:block">Dashboard</h1>
+        <AppLogo />
         <button
             onClick={logout}
-            className="bg-red-500 text-white px-4 py-2 mt-5 sm:mt-0 rounded-lg cursor-pointer hover:bg-red-600 sm:ml-8"
+            className="hidden md:flex items-center bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 cursor-pointer"
           >
+            <LogOut size={18} className="mr-2" />
             Logout
         </button>
-        </div>
-                    
-          {/* Dashboard Heading */}
-          <h1 className="text-3xl font-bold text-center mb-8 mt-5 text-black">Dashboard</h1>
-       
+      </header>
 
+      {/* Mobile Navbar */}
+      <div className={`md:hidden flex items-center justify-between p-4 shadow ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
+        <AppLogo />
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="p-2 bg-gradient-to-r from-cyan-400 to-blue-500 text-white rounded-md"
+        >
+          <Menu />
+        </button>
+      </div>
+
+      {/* Layout Container */}
+      <div className="flex flex-col md:flex-row">
+
+      {/* Sidebar */}
+      <aside
+        className={`${
+          sidebarOpen ? 'block' : 'hidden'
+        } md:block w-full md:w-64 ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-md p-6 flex flex-col justify-between md:h-screen`}
+      >
+        <div>
+          <nav className="space-y-2 mb-6">
+            <button className={`flex items-center w-full text-left p-2 rounded ${darkMode ? 'text-gray-300 hover:bg-gradient-to-r from-indigo-400 via-indigo-400 to-violet-500' : 'text-gray-700'} hover:bg-gradient-to-r from-indigo-200 via-indigo-300 to-violet-300 cursor-pointer`}>
+              <ListTodo className="mr-2" size={18} />
+              Todos
+            </button>
+          </nav>
+
+          {/* Profile and Settings */}
+          <div className="space-y-4 mb-6">
+            <button className={`flex items-center w-full text-left p-2 rounded ${darkMode ? 'text-gray-300 hover:bg-gradient-to-r from-indigo-400 via-indigo-400 to-violet-500' : 'text-gray-700'} hover:bg-gradient-to-r from-indigo-200 via-indigo-300 to-violet-300 cursor-pointer`}>
+              <User className="mr-2" size={18} />
+              Profile
+            </button>
+            <button className={`flex items-center w-full text-left p-2 rounded ${darkMode ? 'text-gray-300 hover:bg-gradient-to-r from-indigo-400 via-indigo-400 to-violet-500' : 'text-gray-700'} hover:bg-gradient-to-r from-indigo-200 via-indigo-300 to-violet-300 cursor-pointer`}>
+              <Settings className="mr-2" size={18} />
+              Settings
+            </button>
+            <button
+              onClick={toggleTheme} // Use the new toggleTheme function
+              className={`flex items-center w-full text-left p-2 rounded ${darkMode ? 'text-gray-300 hover:bg-gradient-to-r from-indigo-400 via-indigo-400 to-violet-500' : 'text-gray-700'} hover:bg-gradient-to-r from-indigo-200 via-indigo-300 to-violet-300 cursor-pointer`}
+            >
+              {darkMode ? (
+                <Sun className="mr-2" size={18} />
+              ) : (
+                <Moon className="mr-2" size={18} />
+              )}
+              {darkMode ? 'Light Mode' : 'Dark Mode'}
+            </button>
+
+            <button
+              onClick={logout}
+              className={`lg:hidden flex items-center bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 cursor-pointe`}
+            >
+              <LogOut className="mr-2" size={18} />
+              Logout
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      {/* Main Content */}
+      <main className="flex-1 p-8 min-h-screen overflow-y-auto">
         {/* Add Todo */}
-        <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-          <h2 className="text-xl font-semibold mb-4 text-black">Add New Todo</h2>
+        <div className="bg-white p-6 rounded-xl shadow mb-8">
+          <h2 className="text-xl font-bold mb-4 text-gray-800">Add New Todo</h2> 
           <div className="space-y-4">
             <input
               type="text"
               placeholder="Title"
               value={newTodo.title}
               onChange={(e) => setNewTodo({ ...newTodo, title: e.target.value })}
-              className="w-full p-2 border rounded-lg text-black"
+              className="w-full p-2 border rounded-lg text-gray-700"
             />
             <input
               type="text"
               placeholder="Description"
               value={newTodo.description}
               onChange={(e) => setNewTodo({ ...newTodo, description: e.target.value })}
-              className="w-full p-2 border rounded-lg text-black"
+              className="w-full p-2 border rounded-lg text-gray-700"
             />
             <div className="flex items-center space-x-2">
               <input
                 type="checkbox"
                 id="completed"
                 checked={newTodo.completed}
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer" 
                 onChange={(e) => setNewTodo({ ...newTodo, completed: e.target.checked })}
+                className="w-4 h-4 cursor-pointer"
               />
-              <label htmlFor="completed" className="text-black">
+              <label htmlFor="completed" className="text-gray-700">
                 Completed
               </label>
             </div>
             <button
               onClick={addTodo}
-              className="w-full bg-gradient-to-r from-cyan-400 to-blue-500 text-white p-2 rounded-lg hover:opacity-90 flex items-center justify-center cursor-pointer"
+              className="w-full bg-gradient-to-r from-cyan-400 to-blue-500 text-white p-2 rounded-lg hover:bg-indigo-600 flex items-center justify-center cursor-pointer"
             >
               <Plus size={18} className="mr-2" />
               Add Todo
@@ -193,13 +266,13 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Filter */}
+        {/* Filters */}
         <div className="flex justify-center space-x-4 mb-6">
           {['all', 'completed', 'incomplete'].map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f as any)}
-              className={`px-4 py-2 rounded-lg cursor-pointer font-medium ${
+              className={`px-4 py-2 rounded-full cursor-pointer font-medium ${
                 filter === f
                   ? f === 'completed'
                     ? 'bg-green-500 text-white'
@@ -214,59 +287,56 @@ export default function Dashboard() {
           ))}
         </div>
 
-        {/* Todo List */}
+        {/* Todos */}
         <div className="space-y-4">
           {filteredTodos.length === 0 ? (
-            <div className="text-center text-gray-700 font-medium bg-white p-4 rounded-lg shadow-md">{renderEmptyMessage()}</div>
+            <div className="text-center text-gray-700 font-medium bg-white p-4 rounded-xl shadow">
+              {renderEmptyMessage()}
+            </div>
           ) : (
             filteredTodos.map((todo) => (
               <div
                 key={todo._id}
-                className="bg-white p-4 rounded-lg shadow-md flex justify-between items-center"
+                className="bg-white p-4 rounded-xl shadow flex justify-between items-center"
               >
-                <div className='space-x-1 flex items-center'>
-                  {/* Checkbox for completed state */}
-                <input 
-                id="default-checkbox" 
-                type="checkbox" 
-                className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer" 
-                checked={todo.completed}
-                onChange={() => toggleComplete(todo._id)}
-                />
-                <label htmlFor="default-checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"></label>
-
-                  {/* Todo Title and Description */}
+                <div className="flex items-center space-x-4">
+                  <input
+                    type="checkbox"
+                    checked={todo.completed}
+                    onChange={() => toggleComplete(todo._id)}
+                    className="w-5 h-5 cursor-pointer"
+                  />
                   <div>
-                  <h3
-                    className={`text-lg font-semibold ${
-                      todo.completed ? 'line-through text-gray-500' : 'text-black'
-                    }`}
-                  >
-                    {todo.title}
-                  </h3>
-                  <p className="text-gray-700">{todo.description}</p>
+                    <h3
+                      className={`text-lg font-semibold ${
+                        todo.completed ? 'line-through text-gray-400' : 'text-gray-800'
+                      }`}
+                    >
+                      {todo.title}
+                    </h3>
+                    <p className="text-gray-500">{todo.description}</p>
                   </div>
                 </div>
                 <div className="flex space-x-2">
-                  
                   <button
                     onClick={() => redirectToEditPage(todo._id)}
-                    className="p-2 text-blue-500 hover:bg-blue-100 rounded-lg cursor-pointer"
+                    className="p-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 cursor-pointer"
                   >
-                    <Edit size={25} />
+                    <Edit size={18} />
                   </button>
                   <button
                     onClick={() => deleteTodo(todo._id)}
-                    className="bg-red-600 text-white px-3 py-1 rounded flex items-center cursor-pointer"
+                    className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 cursor-pointer"
                   >
-                    <Trash2 size={16} />
+                    <Trash2 size={18} />
                   </button>
                 </div>
               </div>
             ))
           )}
         </div>
-      </div>
+      </main>
+    </div>
     </div>
   );
 }

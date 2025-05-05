@@ -1,5 +1,11 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@tailwind utilities;
+
+/* Custom styles */
+body {
+  @apply bg-white text-black dark:bg-black dark:text-white;
+}
 
 @custom-variant dark (&:is(.dark *));
 
